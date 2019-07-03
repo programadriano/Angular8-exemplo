@@ -12,6 +12,7 @@
     "src/**/*.spec.ts"
   ],
   "angularCompilerOptions": {
-    "enableIvy": true
+    "enableIvy": true,
+    "debug": true
   }
 }
