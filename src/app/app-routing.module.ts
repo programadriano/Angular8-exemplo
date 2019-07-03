@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { AuthGuard } from './shared/services/auth.guard';
 
 const routes: Routes = [
   {
@@ -8,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'carrinho',
-    loadChildren: () => import('./pages/carrinho/carrinho.module').then(m => m.CarrinhoModule)
+    loadChildren: () => import('./pages/carrinho/carrinho.module').then(m => m.CarrinhoModule)    
   },
   {
     path: 'entrega',
@@ -20,16 +21,18 @@ const routes: Routes = [
   },
   {
     path: 'relatorio',
-    loadChildren: () => import('./pages/relatorio/relatorio.module').then(m => m.RelatorioModule)
+    loadChildren: () => import('./pages/relatorio/relatorio.module').then(m => m.RelatorioModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'vitrine',
     loadChildren: () => import('./pages/vitrine/vitrine.module').then(m => m.VitrineModule)
-  }
+  },
+  { path: "**", redirectTo: "/index", pathMatch: "full" }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
